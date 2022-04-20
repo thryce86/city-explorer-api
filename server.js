@@ -59,14 +59,20 @@ app.get('/weather', (request, response) => {
 
   console.log('57 ' + weatherObj.data);
   // new forecast array send to constructor so i need to break this down somehow 
- let forecast = weatherObj.data.map((input) => input.weather);
- console.log(forecast);
+ let forecastArray = weatherObj.data.map((input,i) =>{
+   console.log('map' , input.weather  ,input.valid_date) ;
+   return new Forecast(input.weather , input.valid_date )
+//  return Forecast;
+ }
+ 
+ );
+ console.log(forecastArray);
 
   
-  let selectedCity = new Weather(weatherObj)  ;
+  // let selectedCity = new Weather(weatherObj)  ;
 
   // response.send(request.query.searchQuery);
-  response.send(selectedCity);
+  response.send(forecastArray);
   // console.log(request.query.name);
 });
 
@@ -87,12 +93,12 @@ app.get('*', (request, response) => {
 
 
 //CLASSES
-class Weather{
-  constructor(inObj) {
-    console.log('85 in constructor ' + inObj.uv) ;
+class Forecast{
+  constructor(inWeather ,  inDate) {
+    console.log('85 in constructor ' + inWeather.description) ;
 
-  this.city_name = inObj.city_name ;
-  this.weather   = inObj.data[0].weather   ;
+  this.date = inDate ;
+   this.description   = inWeather.description  ;
   }
 }
 
