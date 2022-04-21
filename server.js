@@ -44,6 +44,8 @@ app.get('/xyz', (request, response) => {
 });
 
 app.get('/weather', (request, response) => {
+
+  try{
   // this will go to the terminal
   console.log('alive') ;
 //this will be what you use to pull the key  value down from the browser 
@@ -68,19 +70,27 @@ app.get('/weather', (request, response) => {
  );
  console.log(forecastArray);
 
+
   
   // let selectedCity = new Weather(weatherObj)  ;
 
   // response.send(request.query.searchQuery);
   response.send(forecastArray);
   // console.log(request.query.name);
+
+  }
+  catch(error){
+    next(error);
+  }
+
 });
 
 
 // ERRORS
 // Handle any errors
 app.use((error, request, response, next) => {
-  response.status(500).send(error.message);
+  response.status(500).send('Error: Invalid querry');
+  // response.status(500).send(;
 });
 
 
