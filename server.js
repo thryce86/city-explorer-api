@@ -89,18 +89,53 @@ app.get('/weather',async  (request, response) => {
 //lab08
 // let searchQuery_city = request.query.searchQuery;
 let searchQuery_lat = parseFloat(request.query.lat).toFixed(3);
-// let searchQuery_lon = parseFloat(request.query.lon).toFixed(3)   ;
-console.log('heya ' +  request.query.lon) ;
-let start_date = forecastArray[0].date;
-let end_date = forecastArray[2].date;
 let searchQuery_lon = parseFloat(request.query.lon).toFixed(3)   ;
-console.log("date_checker   =  "  +searchQuery_lat , searchQuery_lon ,start_date , end_date ) ;
+// console.log('heya ' +  request.query.lon) ;
+let start_date = forecastArray[0].date;
+
+// let end_date = forecastArray[2].date ;
+
+
+//////////fixing the offset of the string 
+// let end_date = new Date(forecastArray[2].date) ;
+
+////////////////////////////////////////////////////////////////////////////////
+
+console.log('qqqqqqqqqqqqqqqq' + forecastArray[2].date);
+var end_date = new Date(forecastArray[2].date);
+end_date.setDate(end_date.getDate() +1)
+// console.log(end_date) ;
+
+
+var dd = String(end_date.getDate()+1).padStart(2, '0') ;
+console.log('xcvbnm,' + dd) ;
+
+var mm = String(end_date.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = end_date.getFullYear();
+
+// end_date = mm + '/' + dd + '/' + yyyy;
+end_date =   + yyyy+'-'+mm+'-'+dd;
+///////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+// let date =end_date ; 
+// date.setDate(date.getDate() + 1);
+// end_date.setDate(end_date.getDate() +1) ; 
+// end_date.toString();
+// console.log('ashflkdahfldaskhfdakshfadksjf   ' +  end_date.toString()) ;
+// console.log(date.toString());
+
+
+// let searchQuery_lon = parseFloat(request.query.lon).toFixed(3)   ;
+console.log("date_checker   =  "  +searchQuery_lat , searchQuery_lon ,start_date , end_date.toString()) ;
 
 // add start and end date
 //correct call I think #td need to do the call from 
-let weatherUrl = `https://api.weatherbit.io/v2.0/history/daily?&lat=${searchQuery_lat}&lon=${request.query.lon}&start_date=${start_date}&end_date=${end_date}&key=${process.env.WEATHER_API_KEY}` ;
+let weatherUrl = `https://api.weatherbit.io/v2.0/history/daily?&lat=${searchQuery_lat}&lon=${request.query.lon}&start_date=${start_date}&end_date=${end_date.toString()}&key=${process.env.WEATHER_API_KEY}` ;
 //test call
-//  let weatherUrl = `https://api.weatherbit.io/v2.0/history/daily?&lat=38.123&lon=-78.543&start_date=2022-04-17&end_date=2022-04-18&key=${process.env.WEATHER_API_KEY}` ;
+  // let weatherUrl = `https://api.weatherbit.io/v2.0/history/daily?&lat=38.123&lon=-78.543&start_date=2022-04-17&end_date=2022-04-20&key=f4a7408107c14fb0babe69683fb52b76` ;
 
  // lat=48.858   lon=,2.3200 
 // let weatherUrl = `https://api.weatherbit.io/v2.0/history/daily?&lat=48.858&lon=2.320&start_date=2022-04-17&end_date=2022-04-18&key=${process.env.WEATHER_API_KEY}` ;
@@ -108,16 +143,16 @@ let weatherUrl = `https://api.weatherbit.io/v2.0/history/daily?&lat=${searchQuer
 console.log(weatherUrl) ;
 // console.log(weatherUrl) ; 
 
-let weatherDataTemp = await axios.get(weatherUrl);
+let weatherDataTemp = await axios.get( weatherUrl ) ;
 
 
 
 
-console.log('data from weaher: ' +  weatherDataTemp.data ) ;
+console.log('151 data from weaher: ' +  weatherDataTemp.data ) ;
 // console.log('data from weaher: ' )
 
 
-
+// outPutObj(weatherDataTemp.data , forecastArray) ; 
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,10 +164,9 @@ console.log('data from weaher: ' +  weatherDataTemp.data ) ;
 
 
 
+// #td get both the array and wind data combined and return this 
 
-
-  // response.send(forecastArray);
-  // console.log(forecastArray );
+ 
   response.send(weatherDataTemp.data) ;
 });
 
@@ -167,6 +201,9 @@ class Forecast{
 //   constructor(windObj , forecastArray){
 
 //     // get the wind data
+
+
+
 
 //     // format the forecast data into everything 
 
