@@ -4,6 +4,8 @@ console.log('our first server');
 // this library lets us access our .env file
 require('dotenv').config();
 
+//to do data requests
+const axios = require('axios');
 
 //  data object
 let data = require('./data/weather.json');
@@ -64,6 +66,7 @@ app.get('/weather', (request, response) => {
    return new Forecast(input.weather , input.valid_date )
 //  return Forecast;
  }
+
  
  );
  console.log(forecastArray);
@@ -72,6 +75,15 @@ app.get('/weather', (request, response) => {
   // let selectedCity = new Weather(weatherObj)  ;
 
   // response.send(request.query.searchQuery);
+
+////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+///lab 08
+
+
+
+
   response.send(forecastArray);
   // console.log(request.query.name);
 });
