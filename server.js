@@ -45,31 +45,41 @@ app.get('/xyz', (request, response) => {
   response.send('xyz');
 });
 
-app.get('/weather',async  (request, response) => {
+app.get('/weather', async  (request, response) => {
   // this will go to the terminal
   console.log('alive') ;
 //this will be what you use to pull the key  value down from the browser 
 // http://localhost:3001/weather?searchQuery=life
-  let searchQuery_city = request.query.searchQuery;
+  
+
+// Lab o7   switched to other data ///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// let searchQuery_city = request.query.searchQuery;
    
-  //find the data
-  console.log('heya ' + searchQuery_city) ;
-  let weatherObj = data.find(input => input.city_name === searchQuery_city) ;
+//   //find the data
+//   console.log('heya ' + searchQuery_city) ;
+//   let weatherObj = data.find(input => input.city_name === searchQuery_city) ;
 
 
 
 
-  console.log('57 ' + weatherObj.data);
-  // new forecast array send to constructor so i need to break this down somehow 
- let forecastArray = weatherObj.data.map((input,i) =>{
-   console.log('map' , input.weather  ,input.valid_date) ;
-   return new Forecast(input.weather , input.valid_date )
-//  return Forecast;
-                       }
+//   console.log('57 ' + weatherObj.data);
+//   // new forecast array send to constructor so i need to break this down somehow 
+//  let forecastArray = weatherObj.data.map((input,i) =>{
+//    console.log('map' , input.weather  ,input.valid_date) ;
+//    return new Forecast(input.weather , input.valid_date )
+// //  return Forecast;
+//                        }
 
- 
- );
- console.log(forecastArray);
+                       ///////////////////////////////////////////////////////////////////////////
+                       ///////////////////////////////////////////////////////////////////////////
+                       ///////////////////////////////////////////////////////////////////////////
+                       ///////////////////////////////////////////////////////////////////////////
+//  );
+
+//  console.log(forecastArray);
 
   
   // let selectedCity = new Weather(weatherObj)  ;
@@ -90,8 +100,12 @@ app.get('/weather',async  (request, response) => {
 // let searchQuery_city = request.query.searchQuery;
 let searchQuery_lat = parseFloat(request.query.lat).toFixed(3);
 let searchQuery_lon = parseFloat(request.query.lon).toFixed(3)   ;
-// console.log('heya ' +  request.query.lon) ;
-let start_date = forecastArray[0].date;
+// console.log('heya ' +  request.query.lat) ;
+
+
+
+
+// let start_date = forecastArray[0].date;
 
 // let end_date = forecastArray[2].date ;
 
@@ -99,47 +113,21 @@ let start_date = forecastArray[0].date;
 //////////fixing the offset of the string 
 // let end_date = new Date(forecastArray[2].date) ;
 
-////////////////////////////////////////////////////////////////////////////////
-
-console.log('qqqqqqqqqqqqqqqq' + forecastArray[2].date);
-var end_date = new Date(forecastArray[2].date);
-end_date.setDate(end_date.getDate() +1)
-// console.log(end_date) ;
-
-
-var dd = String(end_date.getDate()+1).padStart(2, '0') ;
-console.log('xcvbnm,' + dd) ;
-
-var mm = String(end_date.getMonth() + 1).padStart(2, '0'); //January is 0!
-var yyyy = end_date.getFullYear();
-
-// end_date = mm + '/' + dd + '/' + yyyy;
-end_date =   + yyyy+'-'+mm+'-'+dd;
-///////////////////////////////////////////////////////////////////////////////////
 
 
 
 
-// let date =end_date ; 
-// date.setDate(date.getDate() + 1);
-// end_date.setDate(end_date.getDate() +1) ; 
-// end_date.toString();
-// console.log('ashflkdahfldaskhfdakshfadksjf   ' +  end_date.toString()) ;
-// console.log(date.toString());
+
 
 
 // let searchQuery_lon = parseFloat(request.query.lon).toFixed(3)   ;
-console.log("date_checker   =  "  +searchQuery_lat , searchQuery_lon ,start_date , end_date.toString()) ;
+// console.log("date_checker   =  "  +searchQuery_lat , searchQuery_lon ,start_date , end_date.toString()) ;
 
 // add start and end date
 //correct call I think #td need to do the call from 
-let weatherUrl = `https://api.weatherbit.io/v2.0/history/daily?&lat=${searchQuery_lat}&lon=${request.query.lon}&start_date=${start_date}&end_date=${end_date.toString()}&key=${process.env.WEATHER_API_KEY}` ;
-//test call
-  // let weatherUrl = `https://api.weatherbit.io/v2.0/history/daily?&lat=38.123&lon=-78.543&start_date=2022-04-17&end_date=2022-04-20&key=f4a7408107c14fb0babe69683fb52b76` ;
-
- // lat=48.858   lon=,2.3200 
-// let weatherUrl = `https://api.weatherbit.io/v2.0/history/daily?&lat=48.858&lon=2.320&start_date=2022-04-17&end_date=2022-04-18&key=${process.env.WEATHER_API_KEY}` ;
-
+//current weatherapi 
+// let weatherUrl = `https://api.weatherbit.io/v2.0/current?&lat=${searchQuery_lat}&lon=${request.query.lon}&key=${process.env.WEATHER_API_KEY}` ;
+let weatherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?city=${request.query.searchQuery}&key=${process.env.WEATHER_API_KEY}` ;
 console.log(weatherUrl) ;
 // console.log(weatherUrl) ; 
 
@@ -151,8 +139,14 @@ let weatherDataTemp = await axios.get( weatherUrl ) ;
 console.log('151 data from weaher: ' +  weatherDataTemp.data ) ;
 // console.log('data from weaher: ' )
 
+console.log('Inside /weather call');
+console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++' );
+// console.log( weatherDataTemp.data.data) ;
 
-// outPutObj(weatherDataTemp.data , forecastArray) ; 
+console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++' );
+
+
+let output = new OutputObj( weatherDataTemp.data.data) ; 
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,10 +158,10 @@ console.log('151 data from weaher: ' +  weatherDataTemp.data ) ;
 
 
 
-// #td get both the array and wind data combined and return this 
 
- 
-  response.send(weatherDataTemp.data) ;
+
+// this returns an updated output with combined description using the weather io  
+  response.send(output) ;
 });
 
 
@@ -189,36 +183,71 @@ app.get('*', (request, response) => {
 //CLASSES
 class Forecast{
   constructor(inWeather ,  inDate) {
-    console.log('85 in constructor ' + inWeather.description) ;
+    // console.log('85 in constructor ' + inWeather.description) ;
 
   this.date = inDate ;
-   this.description   = inWeather.description  ;
+   this.description   = inWeather  ;
   }
 }
 
 
-// class OutputObj{
-//   constructor(windObj , forecastArray){
+class OutputObj{
+  constructor(windObj){
 
-//     // get the wind data
+    // get the wind data
+    // console.log(forecastArray);
+    console.log('IN WINDDDDDDDDDDD    ', windObj[0]   ) ;
+    // console.log(' wind data   ' + windObj.data[0].min_temp )
+
+  
+
+   console.log('////////////////////////////////////////////////////////////////////////' );
+   console.log( windObj[0].weather) ;
+   console.log('////////////////////////////////////////////////////////////////////////' );
 
 
+   // ourput of forecast objects
+    let output = windObj.map((tempObj) =>{
+        let weather_desctription = tempObj.weather.description ;
+        // console.log( tempObj.weather.description ) ;
+        let min_temp = tempObj.low_temp ; 
+        let max_temp = tempObj.max_temp   ;
+        let date = tempObj.valid_date  ;
+        let description_str = `Low of ${min_temp}, high of ${max_temp} with ${weather_desctription.toLowerCase()}`;
+
+      // console.log(description_str) ;
+
+      let out = new Forecast(description_str, date)
+      return(out);
+        // return(weather_desctription);
+      });
+
+      console.log('OUTPUT WIND CLASS    ' + output) ;
+
+    return(output);
+
+    }
 
 
-//     // format the forecast data into everything 
+  }
 
-//     // return 
-//     // {
-//     //   "description": "Low of 17.1, high of 23.6 with broken clouds",
-//     //   "date": "2021-03-31"
-//     // }, 
+
+    // weatherData.data[0].date
+    // .weatherData.data[0].description
+
+
+    // format the forecast data into everything 
+
+    // return 
+    // {
+    //   "description": "Low of 17.1, high of 23.6 with broken clouds",
+    //   "date": "2021-03-31"
+    // }, 
 
     
 
+  
 
-
-//   }
-// }
 
 // this turns the server on to the port that you specifed in your .env file
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
