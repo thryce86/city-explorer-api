@@ -1,5 +1,5 @@
 'use strict';
-console.log('our first server');
+// console.log('our first server');
 
 // this library lets us access our .env file
 require('dotenv').config();
@@ -26,7 +26,7 @@ app.use(cors());
 // we are getting the port variable from the .env file.
 // const PORT = process.env.PORT;
 const PORT = process.env.PORT || 3002;
-console.log(PORT);
+// console.log(PORT);
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
