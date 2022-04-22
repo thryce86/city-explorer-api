@@ -46,6 +46,7 @@ app.get('/xyz', (request, response) => {
 });
 
 
+
 app.get('/movies', async (request, response) => {
 
   try{
@@ -82,6 +83,7 @@ response.status(200).send(output);
 
 
 app.get('/weather', async  (request, response) => {
+
   // this will go to the terminal
   console.log('alive') ;
 //this will be what you use to pull the key  value down from the browser 
@@ -117,10 +119,12 @@ app.get('/weather', async  (request, response) => {
 
 //  console.log(forecastArray);
 
+
   
   // let selectedCity = new Weather(weatherObj)  ;
 
   // response.send(request.query.searchQuery);
+
 
 ////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -198,14 +202,18 @@ let output = new OutputObj( weatherDataTemp.data.data) ;
 
 // this returns an updated output with combined description using the weather io  
   response.send(output) ;
+
 });
 
 
 // ERRORS
 // Handle any errors
 app.use((error, request, response, next) => {
+
+  
   response.status(500).send(error.message);
   response.status(500).send(error.status);
+
 });
 
 
