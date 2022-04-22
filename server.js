@@ -92,60 +92,7 @@ app.get('/movies', async (request, response, next) => {
 
 app.get('/weather', async (request, response) => {
 
-  // this will go to the terminal
-  // console.log('alive') ;
-  //this will be what you use to pull the key  value down from the browser 
-  // http://localhost:3001/weather?searchQuery=life
 
-
-  // Lab o7   switched to other data ///////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////
-  // let searchQuery_city = request.query.searchQuery;
-
-  //   //find the data
-  //   console.log('heya ' + searchQuery_city) ;
-  //   let weatherObj = data.find(input => input.city_name === searchQuery_city) ;
-
-
-
-
-  //   console.log('57 ' + weatherObj.data);
-  //   // new forecast array send to constructor so i need to break this down somehow 
-  //  let forecastArray = weatherObj.data.map((input,i) =>{
-  //    console.log('map' , input.weather  ,input.valid_date) ;
-  //    return new Forecast(input.weather , input.valid_date )
-  // //  return Forecast;
-  //                        }
-
-  ///////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////
-  //  );
-
-  //  console.log(forecastArray);
-
-
-
-  // let selectedCity = new Weather(weatherObj)  ;
-
-  // response.send(request.query.searchQuery);
-
-
-  ////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  ///lab 08
-
-
-
-  // I need to parse new input then somehow combine this to forecasts and send the entire thing 
-  // I dont know how to make that request more specific by lat and lon 
-  ////////////////////////////////////////////////////////////////////////////////
-  //lab08
-  // let searchQuery_city = request.query.searchQuery;
   let searchQuery_lat = parseFloat(request.query.lat).toFixed(3);
   let searchQuery_lon = parseFloat(request.query.lon).toFixed(3);
   // console.log('heya ' +  request.query.lat) ;
@@ -153,46 +100,12 @@ app.get('/weather', async (request, response) => {
 
 
 
-  // let start_date = forecastArray[0].date;
 
-  // let end_date = forecastArray[2].date ;
-
-
-  //////////fixing the offset of the string 
-  // let end_date = new Date(forecastArray[2].date) ;
-
-
-
-
-
-
-
-
-  // let searchQuery_lon = parseFloat(request.query.lon).toFixed(3)   ;
-  // console.log("date_checker   =  "  +searchQuery_lat , searchQuery_lon ,start_date , end_date.toString()) ;
-
-  // add start and end date
-  //correct call I think #td need to do the call from 
-  //current weatherapi 
-  // let weatherUrl = `https://api.weatherbit.io/v2.0/current?&lat=${searchQuery_lat}&lon=${request.query.lon}&key=${process.env.WEATHER_API_KEY}` ;
   let weatherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?city=${request.query.searchQuery}&key=${process.env.WEATHER_API_KEY}`;
   // console.log(weatherUrl) ;
   // console.log(weatherUrl) ; 
 
   let weatherDataTemp = await axios.get(weatherUrl);
-
-
-
-
-  // console.log('151 data from weaher: ' +  weatherDataTemp.data ) ;
-  // // console.log('data from weaher: ' )
-
-  // console.log('Inside /weather call');
-  // console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++' );
-  // // console.log( weatherDataTemp.data.data) ;
-
-  // console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++' );
-
 
   let output = new OutputObj(weatherDataTemp.data.data);
 
@@ -284,15 +197,7 @@ class Forecast {
 class OutputObj {
   constructor(windObj) {
 
-    // get the wind data
-    // console.log(forecastArray);
-    // console.log('IN WINDDDDDDDDDDD    ', windObj[0]   ) ;
-    // console.log(' wind data   ' + windObj.data[0].min_temp )
 
-
-
-    //  console.log('////////////////////////////////////////////////////////////////////////' );
-    //  console.log( windObj[0].weather) ;
     //  console.log('////////////////////////////////////////////////////////////////////////' );
 
 
