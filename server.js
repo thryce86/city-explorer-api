@@ -47,23 +47,31 @@ app.get('/xyz', (request, response) => {
 
 
 
-app.get('/movies', async (request, response) => {
+app.get('/movies', async (request, response , next) => {
+
 
   try{
   let searchQuery_city = request.query.city;
-  console.log('in movies  ' +searchQuery_city);
+  // console.log('in movies  ' +searchQuery_city);
   //https://api.themoviedb.org/3/movie/76341?api_key=d996aca02895711741e6ac950089a3f9
   // https://api.themoviedb.org/3/search/keyword?query=*Summer*&api_key=d996aca02895711741e6ac950089a3f9
 // searches title https://api.themoviedb.org/3/search/movie?query=*Summer*&api_key=d996aca02895711741e6ac950089a3f9
 
 let movieUrl = `https://api.themoviedb.org/3/search/movie?query=*${searchQuery_city}*&api_key=${process.env.MOVIE_API_KEY}` ;
-console.log(movieUrl);
+// console.log(movieUrl);
 let movieDataFull = await axios.get( movieUrl ) ;
-console.log(movieDataFull.data) ;
+// console.log(movieDataFull.data) ;
 let beginningUrl = 'https://image.tmdb.org/t/p/w500' ;
 
+//used when it was a grand list no titles 
+// let output = new MovieObj(movieDataFull.data);
+// console.log(movieDataFull.data.results) ;
 
-let output = new MovieObj(movieDataFull.data);
+let output=movieDataFull.data.results.map( (inputObj) =>   new MovieObj(inputObj) );
+console.log(output) ;
+
+
+
 response.status(200).send(output);
 
   }catch(error){
@@ -168,7 +176,7 @@ let searchQuery_lon = parseFloat(request.query.lon).toFixed(3)   ;
 //current weatherapi 
 // let weatherUrl = `https://api.weatherbit.io/v2.0/current?&lat=${searchQuery_lat}&lon=${request.query.lon}&key=${process.env.WEATHER_API_KEY}` ;
 let weatherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?city=${request.query.searchQuery}&key=${process.env.WEATHER_API_KEY}` ;
-console.log(weatherUrl) ;
+// console.log(weatherUrl) ;
 // console.log(weatherUrl) ; 
 
 let weatherDataTemp = await axios.get( weatherUrl ) ;
@@ -210,9 +218,8 @@ let output = new OutputObj( weatherDataTemp.data.data) ;
 // Handle any errors
 app.use((error, request, response, next) => {
 
-  
-  response.status(500).send(error.message);
-  response.status(500).send(error.status);
+  // response.status(500).send(error.message);
+  response.status(500).send('ERROR!!!!!');
 
 });
 
@@ -228,28 +235,42 @@ app.get('*', (request, response) => {
 //CLASSES
 class MovieObj{
   constructor(inputObj){
-    console.log("+++++++++++++++++++++++++++++++++++" + inputObj) ;
+
+  // console.log('in MovieObj')  ;
+  // console.log(inputObj);
+    // console.log("+++++++++++++++++++++++++++++++++++" + inputObj) ;
 
     let beginningUrl = 'https://image.tmdb.org/t/p/w500' ;
 
 // console.log("+++++++++++++++++++++++++++++++++++" + inputObj.results.slice(0,19)) ;
-inputObj =inputObj.results.slice(0,19) ;
-    let output=inputObj.map((inputObj) => {
-      let title = inputObj.original_title;
-      let overview = inputObj.overview;
-      let total_votes = inputObj.vote_count ;
-      let image_url = beginningUrl +inputObj.poster_path;
-      let popularity = inputObj.vote_average ;
-      let release_date =inputObj.release_date;
 
-      return [title ,overview, total_votes ,popularity ,image_url, release_date] ;
-    });
+// inputObj =inputObj.results.slice(0,20) ;
+// console.log("+++++++++++++++++++++++++++++++++++" + inputObj) ;
+
+  this.title = inputObj.original_title;
+  this.overview = inputObj.overview;
+  this.total_votes = inputObj.vote_count ;
+  this.image_url = beginningUrl +inputObj.poster_path;
+  this.popularity = inputObj.vote_average ;
+  this.release_date =inputObj.release_date;
+
+// console.log(this.description) ;
 
 
-    
-    
-    console.log(output);
-    return(output) ;
+
+
+    // let output=inputObj.map((inputObj) => {
+    //   let title = inputObj.original_title;
+    //   let overview = inputObj.overview;
+    //   let total_votes = inputObj.vote_count ;
+    //   let image_url = beginningUrl +inputObj.poster_path;
+    //   let popularity = inputObj.vote_average ;
+    //   let release_date =inputObj.release_date;
+
+    //   return [title ,overview, total_votes ,popularity ,image_url, release_date] ;
+    // });  
+    // console.log(output);
+    // return(output) ;
 
   }
 }
@@ -272,14 +293,14 @@ class OutputObj{
 
     // get the wind data
     // console.log(forecastArray);
-    console.log('IN WINDDDDDDDDDDD    ', windObj[0]   ) ;
+    // console.log('IN WINDDDDDDDDDDD    ', windObj[0]   ) ;
     // console.log(' wind data   ' + windObj.data[0].min_temp )
 
   
 
-   console.log('////////////////////////////////////////////////////////////////////////' );
-   console.log( windObj[0].weather) ;
-   console.log('////////////////////////////////////////////////////////////////////////' );
+  //  console.log('////////////////////////////////////////////////////////////////////////' );
+  //  console.log( windObj[0].weather) ;
+  //  console.log('////////////////////////////////////////////////////////////////////////' );
 
 
    // ourput of forecast objects
@@ -298,7 +319,7 @@ class OutputObj{
         // return(weather_desctription);
       });
 
-      console.log('OUTPUT WIND CLASS    ' + output) ;
+      // console.log('OUTPUT WIND CLASS    ' + output) ;
 
     return(output);
 
