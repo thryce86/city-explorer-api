@@ -45,6 +45,34 @@ app.get('/xyz', (request, response) => {
   response.send('xyz');
 });
 
+
+app.get('/movies', async (request, response) => {
+  let searchQuery_city = request.query.city;
+  console.log('in movies  ' +searchQuery_city);
+  //https://api.themoviedb.org/3/movie/76341?api_key=d996aca02895711741e6ac950089a3f9
+  // https://api.themoviedb.org/3/search/keyword?query=*Summer*&api_key=d996aca02895711741e6ac950089a3f9
+// searches title https://api.themoviedb.org/3/search/movie?query=*Summer*&api_key=d996aca02895711741e6ac950089a3f9
+
+let movieUrl = `https://api.themoviedb.org/3/search/movie?query=*${searchQuery_city}*&api_key=${process.env.MOVIE_API_KEY}` ;
+console.log(movieUrl);
+let movieDataFull = await axios.get( movieUrl ) ;
+console.log(movieDataFull.data) ;
+let beginningUrl = 'https://image.tmdb.org/t/p/w500' ;
+
+
+let output = new MovieObj(movieDataFull.data);
+  response.send(output);
+
+
+
+
+
+});
+
+
+
+
+
 app.get('/weather', async  (request, response) => {
   // this will go to the terminal
   console.log('alive') ;
@@ -136,14 +164,14 @@ let weatherDataTemp = await axios.get( weatherUrl ) ;
 
 
 
-console.log('151 data from weaher: ' +  weatherDataTemp.data ) ;
-// console.log('data from weaher: ' )
+// console.log('151 data from weaher: ' +  weatherDataTemp.data ) ;
+// // console.log('data from weaher: ' )
 
-console.log('Inside /weather call');
-console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++' );
-// console.log( weatherDataTemp.data.data) ;
+// console.log('Inside /weather call');
+// console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++' );
+// // console.log( weatherDataTemp.data.data) ;
 
-console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++' );
+// console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++' );
 
 
 let output = new OutputObj( weatherDataTemp.data.data) ; 
@@ -181,6 +209,37 @@ app.get('*', (request, response) => {
 
 
 //CLASSES
+class MovieObj{
+  constructor(inputObj){
+    console.log("+++++++++++++++++++++++++++++++++++" + inputObj) ;
+
+    let beginningUrl = 'https://image.tmdb.org/t/p/w500' ;
+
+// console.log("+++++++++++++++++++++++++++++++++++" + inputObj.results.slice(0,19)) ;
+inputObj =inputObj.results.slice(0,19) ;
+    let output=inputObj.map((inputObj) => {
+      let title = inputObj.original_title;
+      let overview = inputObj.overview;
+      let total_votes = inputObj.vote_count ;
+      let image_url = beginningUrl +inputObj.poster_path;
+      let popularity = inputObj.vote_average ;
+      let release_date =inputObj.release_date;
+
+      return [title ,overview, total_votes ,popularity ,image_url, release_date] ;
+    });
+
+
+    
+    
+    console.log(output);
+    return(output) ;
+
+  }
+}
+
+
+
+
 class Forecast{
   constructor(inWeather ,  inDate) {
     // console.log('85 in constructor ' + inWeather.description) ;
@@ -232,17 +291,7 @@ class OutputObj{
   }
 
 
-    // weatherData.data[0].date
-    // .weatherData.data[0].description
-
-
-    // format the forecast data into everything 
-
-    // return 
-    // {
-    //   "description": "Low of 17.1, high of 23.6 with broken clouds",
-    //   "date": "2021-03-31"
-    // }, 
+   
 
     
 
