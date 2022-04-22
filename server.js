@@ -47,6 +47,8 @@ app.get('/xyz', (request, response) => {
 
 
 app.get('/movies', async (request, response) => {
+
+  try{
   let searchQuery_city = request.query.city;
   console.log('in movies  ' +searchQuery_city);
   //https://api.themoviedb.org/3/movie/76341?api_key=d996aca02895711741e6ac950089a3f9
@@ -61,7 +63,13 @@ let beginningUrl = 'https://image.tmdb.org/t/p/w500' ;
 
 
 let output = new MovieObj(movieDataFull.data);
-  response.send(output);
+response.status(200).send(output);
+
+  }catch(error){
+    next(error) ;
+  }
+
+ 
 
 
 
@@ -197,6 +205,7 @@ let output = new OutputObj( weatherDataTemp.data.data) ;
 // Handle any errors
 app.use((error, request, response, next) => {
   response.status(500).send(error.message);
+  response.status(500).send(error.status);
 });
 
 
