@@ -7,7 +7,7 @@ const cors = require('cors');
 
 // module.exports = getWeather;
 
-function getWeather(latitude, longitude) {
+async function getWeather(latitude, longitude) {
   const key = 'weather-' + latitude + longitude;
   console.log ('key = ', key ); 
   console.log (`http://api.weatherbit.io/v2.0/forecast/daily/?key=${process.env.WEATHER_API_KEY}&lang=en&lat=${latitude}&lon=${longitude}&days=5`);
@@ -21,7 +21,7 @@ function getWeather(latitude, longitude) {
              
     cache[key] = {};
     cache[key].timestamp = Date.now();
-    cache[key].data = axios.get(url)
+    cache[key].data = await axios.get(url)
     .then(response => parseWeather(response.data));
   
     console.log('Cache miss');

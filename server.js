@@ -10,6 +10,7 @@ const cors = require('cors');
 
 //#td
 const weather = require('./modules/weather.js');
+const movies = require('./modules/movies.js');
 const app = express();
 
 const PORT = process.env.PORT || 3002;
@@ -62,6 +63,29 @@ app.get('/weather', weatherHandler);
               });
             }  
           
+            // let movieUrl= baseUrl +`/movies?city=${this.state.city}` ; 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+ app.get('/movies', movieHandler);
+
+            // console.log('++++++++++++++++++++++++++++' ,  request.query);
+            
+function movieHandler(request, response) {
+  
+  ///added
+  console.log(request.query.city);
+
+ const city = request.query.city ;
+
+  movies(city )
+  .then(summaries => response.send(summaries))
+  .catch((error) => {
+    // console.error(error);
+    response.status(200).send('Sorry. Something went wrong!')
+  });
+
+
+
+}           
 
 
 //////////////////////////////////////////////////////////////////////////////
