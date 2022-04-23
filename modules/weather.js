@@ -53,7 +53,9 @@ class Weather {
 console.log('++++++++++++ in Class Weather ')
 
     this.forecast = day.weather.description;
-    this.time = day.datetime;
+    this.date = day.datetime;
+
+    console.log(  this.forecast = day.weather.description) ;
   }
 }
 
