@@ -9,13 +9,13 @@ const cors = require('cors');
 
 async function getWeather(latitude, longitude) {
   const key = 'weather-' + latitude + longitude;
-  console.log ('key = ', key ); 
-  console.log (`http://api.weatherbit.io/v2.0/forecast/daily/?key=${process.env.WEATHER_API_KEY}&lang=en&lat=${latitude}&lon=${longitude}&days=5`);
+  // console.log ('key = ', key ); 
+  // console.log (`http://api.weatherbit.io/v2.0/forecast/daily/?key=${process.env.WEATHER_API_KEY}&lang=en&lat=${latitude}&lon=${longitude}&days=5`);
 
   const url = `http://api.weatherbit.io/v2.0/forecast/daily/?key=${process.env.WEATHER_API_KEY}&lang=en&lat=${latitude}&lon=${longitude}&days=5`;
 
   if (cache[key] && (Date.now() - cache[key].timestamp < 50000)) {
-    console.log('Cache hit');
+    // console.log('Cache hit');
   } else {
 
              
@@ -24,7 +24,7 @@ async function getWeather(latitude, longitude) {
     cache[key].data = await axios.get(url)
     .then(response => parseWeather(response.data));
   
-    console.log('Cache miss');
+    // console.log('Cache miss');
        
     
 
@@ -33,7 +33,7 @@ async function getWeather(latitude, longitude) {
   }
   
 
-  console.log('getWeather ELSE   hey = ',key , '    cache[key].timestamp = ', cache[key].timestamp , 'cache[key].data  = ', cache[key].data);
+  // console.log('getWeather ELSE   hey = ',key , '    cache[key].timestamp = ', cache[key].timestamp , 'cache[key].data  = ', cache[key].data);
   return cache[key].data;
 }
 
@@ -50,12 +50,12 @@ function parseWeather(weatherData) {
 
 class Weather {
   constructor(day) {
-console.log('++++++++++++ in Class Weather ')
+// console.log('++++++++++++ in Class Weather ')
 
     this.forecast = day.weather.description;
     this.date = day.datetime;
 
-    console.log(  this.forecast = day.weather.description) ;
+    // console.log(  this.forecast = day.weather.description) ;
   }
 }
 

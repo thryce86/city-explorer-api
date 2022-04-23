@@ -46,14 +46,14 @@ app.get('/weather', weatherHandler);
 
             function weatherHandler(request, response) {
               ///added
-              console.log(request.query.lat);
+              // console.log(request.query.lat);
 
 
               // const { lat, lon } = request.query;
             const lat = request.query.lat ;
             const lon = request.query.lon ;
 
-              console.log('lat =' , lat , '  ||  lon = '  , lon   )
+              // console.log('lat =' , lat , '  ||  lon = '  , lon   )
 
               weather(lat, lon)
               .then(summaries => response.send(summaries))
@@ -72,7 +72,7 @@ app.get('/weather', weatherHandler);
 function movieHandler(request, response) {
   
   ///added
-  console.log(request.query.city);
+  // console.log(request.query.city);
 
  const city = request.query.city ;
 

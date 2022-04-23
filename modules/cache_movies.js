@@ -1,7 +1,7 @@
 'use strict';
 
 let cache = {} ;
-console.log('Calling cache_movies ') ;
+// console.log('Calling cache_movies ') ;
 
 module.exports = cache;
 

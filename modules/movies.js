@@ -9,21 +9,21 @@ const cors = require('cors');
 async function getMovies(city) {
       const key = 'movie-' + city;
       let searchQuery_city =city ;
-      console.log ('key = ', key ); 
+      
     
 
       // const url = `http://api.weatherbit.io/v2.0/forecast/daily/?key=${process.env.WEATHER_API_KEY}&lang=en&lat=${latitude}&lon=${longitude}&days=5`;
       let url = `https://api.themoviedb.org/3/search/movie?query=*${searchQuery_city}*&api_key=${process.env.MOVIE_API_KEY}`;
      
                 //////////////////////////
-                  console.log(url);
-                  console.log(cache[key]) ;
+                  // console.log(url);
+                  // console.log(cache[key]) ;
                   let tempData =   await axios.get(url) ;
                   // console.log(tempData.data);
                   ///////////////////////////
       
       if (cache[key] && (Date.now() - cache[key].timestamp < 50000)) {
-        console.log('Cache hit');
+        // console.log('Cache hit');
       } 
       
       else {
@@ -34,7 +34,7 @@ async function getMovies(city) {
         cache[key].data = await axios.get(url)
         .then(response => parseMovies(response.data));
       
-        console.log('Cache miss');
+        // console.log('Cache miss');
       
   }
   
@@ -47,7 +47,7 @@ async function getMovies(city) {
 
 
 function parseMovies(movieData) {
-console.log('in parseMovies') ;
+
 
   try {
     const movieSummaries = movieData.results.map(input => {
@@ -69,7 +69,7 @@ console.log('in parseMovies') ;
 
 class MovieObj {
   constructor(inputObj) {
-    console.log('in Movie Obj') ;
+    
 
  
 

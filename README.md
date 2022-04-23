@@ -44,6 +44,8 @@ Actual time needed to complete: _____
 1240 server is live need to integrate modules 
 1256 queery comes in 
 238 
+458 : movie obj finished connected locally need to clean everything up 
+
 cache up //////////////////////////////////////////////////////////////////////////////////////////////////////
 lat = 2.351   ||  lon =  48.856
 key =  weather-2.35148.856
@@ -59,3 +61,5 @@ getWeather ELSE   hey =  weather-2.35148.856     cache[key].timestamp =  1650742
   ]
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+316 commented the movies out on front to fix back 
