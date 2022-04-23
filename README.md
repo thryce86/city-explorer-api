@@ -35,3 +35,27 @@ Start time: 0805
 Finish time: _____
 
 Actual time needed to complete: _____
+
+
+
+
+
+################################################################################################################
+1240 server is live need to integrate modules 
+1256 queery comes in 
+238 
+cache up //////////////////////////////////////////////////////////////////////////////////////////////////////
+lat = 2.351   ||  lon =  48.856
+key =  weather-2.35148.856
+http://api.weatherbit.io/v2.0/forecast/daily/?key=f4a7408107c14fb0babe69683fb52b76&lang=en&lat=2.351&lon=48.856&days=5
+Cache hit
+getWeather ELSE   hey =  weather-2.35148.856     cache[key].timestamp =  1650742654658 cache[key].data  =  Promise {
+  [
+    Weather { forecast: 'Broken clouds', time: '2022-04-23' },
+    Weather { forecast: 'Scattered clouds', time: '2022-04-24' },
+    Weather { forecast: 'Broken clouds', time: '2022-04-25' },
+    Weather { forecast: 'Broken clouds', time: '2022-04-26' },
+    Weather { forecast: 'Overcast clouds', time: '2022-04-27' }
+  ]
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
